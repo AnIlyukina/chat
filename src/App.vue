@@ -5,20 +5,23 @@ import {ref} from "vue";
 
 const isOpenChat = ref(false)
 
-const openChat = () => {
-	isOpenChat.value = true
+const toggleChat = () => {
+	isOpenChat.value = !isOpenChat.value
 }
-
-const closeChat = () => {
-	isOpenChat.value = false
-}
-
 </script>
 
 <template>
-	<ChatButton v-if="!isOpenChat" @click="openChat" />
-	<ChatModal v-if="isOpenChat" @close-chat="closeChat" />
+	<ChatButton v-if="!isOpenChat" @click="toggleChat" />
+	<Transition name="fade">
+		<ChatModal v-if="isOpenChat" @close="toggleChat" />
+	</Transition>
 </template>
 
 <style>
+.fade-enter-active, .fade-leave-active {
+	transition: opacity 0.5s;
+}
+.fade-enter-from, .fade-leave-to /* .fade-leave-active в версии <2.1.8 */ {
+	opacity: 0;
+}
 </style>
