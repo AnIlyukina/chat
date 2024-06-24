@@ -9,14 +9,14 @@ const props = defineProps({
 	}
 })
 
-const {data} = toRefs((props))
+const {data} = toRefs(props)
 </script>
 
 <template>
 	<div>
 		<div class="button-link">
 			<p class="button-link__text" v-html="data.message"></p>
-			<UIButton class="button-link__button" text="WhatsApp" type="link" isIcon/>
+			<UIButton class="button-link__button" text="WhatsApp" type="link" :link="data.buttonUrl" isIcon/>
 		</div>
 	</div>
 </template>

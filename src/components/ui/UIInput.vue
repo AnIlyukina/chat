@@ -1,5 +1,11 @@
 <script setup>
+const emits = defineEmits(['update:modelValue'])
+
 const props = defineProps({
+	modelValue: {
+		type: String,
+		default: ''
+	},
 	type: {
 		type: String,
 		default: 'text'
@@ -21,11 +27,13 @@ const props = defineProps({
 
 <template>
 	<input
+		:value="modelValue"
 		class="input"
 		:type="type"
 		:name="name"
 		:placeholder="placeholder"
 		:required="required"
+		@input="emits('update:modelValue', $event.target.value)"
 	>
 </template>
 

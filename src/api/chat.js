@@ -1,54 +1,37 @@
-import { api, handleApiError} from "./index.js";
+import {api, handleApiError, handleApiResponse} from "./index.js";
 
-export const getMessageHistory = () => {
-  return [
-    {
-      "type": "text",
-      "message": "Здравствуйте! Если у Вас есть вопросы, мы с радостью ответим на них.",
-      "batch": 3,
-      "fromBot": true,
-      "isFinished": true
-    },
-    {
-      "type": "buttonLink",
-      "message": "Перейдите по ссылке в WhatsApp или напишите в чат, и мы свяжемся с Вами",
-      "buttonType": "whatsapp",
-      "buttonUrl": "testurl",
-      "batch": 3,
-      "fromBot": true,
-      "isFinished": true
-    },
-    {
-      "type": "text",
-      "message": "test",
-      "batch": 3,
-      "fromBot": false,
-      "isFinished": true
-    },
-    {
-      "type": "text",
-      "message": "Кажется, вы не авторизованы... Пожалуйста, оставьте свои контакты для связи",
-      "batch": 3,
-      "fromBot": true,
-      "isFinished": true
-    },
-    {
-      "type": "form",
-      "message": "Укажите свои данные",
-      "formType": "not_auth",
-      "formUrl": "api\/chat\/user-data\/",
-      "formHint": "Нажимая кнопку, вы даёте согласие на обработку персональных данных",
-      "batch": 3,
-      "fromBot": true,
-      "isFinished": true
-    }
-  ];
+export const getMessageHistory = async () => {
+  try {
+    const response = await api.get('api/chat/messages/');
+    return handleApiResponse(response.data);
+  } catch (error) {
+    handleApiError(error)
+  }
 };
 
-export const sendMessage = async () => {
-  return {}
+export const postMessage = async (message) => {
+  try {
+    const response = await api.post('api/chat/messages/', {message});
+    return handleApiResponse(response.data);
+  } catch (error) {
+    handleApiError(error)
+  }
 };
 
-export const finish = async () => {
-  return {}
+export const finishMessage = async () => {
+  try {
+    const response = await api.post('api/chat/finish/');
+    return handleApiResponse(response.data);
+  } catch (error) {
+    handleApiError(error)
+  }
+}
+
+export const postFormData = async (data) => {
+  try {
+    const response = await api.post('api/chat/user/', data);
+    return handleApiResponse(response.data)
+  } catch(error) {
+    handleApiError(error)
+  }
 }

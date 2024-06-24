@@ -1,46 +1,111 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
-import {getMessageHistory} from "../api/chat.js";
+import {computed, onMounted, onUnmounted, ref} from "vue";
+import {finishMessage, getMessageHistory, postFormData, postMessage} from "../api/chat.js";
 import MessageBlock from "./MessageBlock.vue";
 import MessageField from "./ui/MessageField.vue";
+import { useTimer } from "../composable/useTimer.js";
+
 
 const emits = defineEmits(['close']);
 const messageHistory = ref([]);
+const { startTimer, resetTimer } = useTimer()
 
 const close = () => {
 	emits('close');
 };
+
+const message = ref('')
 
 const groupedMessages = computed(() => {
 	let result = [];
 	let arrByFrom = [];
 	let fromBot = true;
 
-	for (let i = 0; i < messageHistory.value.length; i++) {
-		if (fromBot !== messageHistory.value[i].fromBot) {
-			if (arrByFrom.length > 0) {
-				result.push(arrByFrom);
+	if (messageHistory.value) {
+		for (let i = 0; i < messageHistory.value.length; i++) {
+			if (fromBot !== messageHistory.value[i].fromBot) {
+				if (arrByFrom.length > 0) {
+					result.push(arrByFrom);
+				}
+				arrByFrom = [];
+				fromBot = messageHistory.value[i].fromBot;
 			}
-			arrByFrom = [];
-			fromBot = messageHistory.value[i].fromBot;
+			arrByFrom.push(messageHistory.value[i]);
 		}
-		arrByFrom.push(messageHistory.value[i]);
-	}
 
-	if (arrByFrom.length > 0) {
-		result.push(arrByFrom);
+		if (arrByFrom.length > 0) {
+			result.push(arrByFrom);
+		}
 	}
 
 	return result;
 });
 
+const isFinished = computed(() => {
+	if (messageHistory.value.length > 0) {
+		console.log(messageHistory.value, 'messageHistory.value')
+		console.log(messageHistory.value.length - 1, 'messageHistory.value.length - 1')
+		console.log(messageHistory.value[messageHistory.value.length - 1].isFinished, 'messageHistory.value[messageHistory.value.length - 1].isFinished')
+		return messageHistory.value[messageHistory.value.length - 1].isFinished
+	}
+	return false
+})
+
+// загрузка истории сообщений при инициализации чата
 const loadData = async () => {
 	messageHistory.value = await getMessageHistory();
 };
 
+// отправляю сообщение
+const sendMessage = async () => {
+	if (message.value) {
+		let result = await postMessage(message.value)
+		if (result && messageHistory.value) {
+			saveMessageClient()
+			finishChatMessage()
+		}
+	}
+}
+
+// после отправки 1 сообщения устанавливаю тацмер на 30 сек, после которого будет завершение контекста общения
+const finishChatMessage = () => {
+	startTimer(5000, async () => {
+		console.log('Таймер отработал')
+		let result = await finishMessage()
+		if (result && messageHistory.value) {
+			saveMessageBot(result)
+		}
+	})
+}
+
+const saveMessageBot = (result) => {
+	messageHistory.value.push(...result)
+}
+
+const saveMessageClient = () => {
+	messageHistory.value.push({
+		message: message.value,
+		fromBot: false,
+		type: 'text'
+	})
+
+	message.value = ''
+}
+
+const sendFormData = async(data) => {
+	let result = await postFormData(data)
+	if (result && messageHistory.value) {
+		saveMessageBot(result)
+	}
+}
+
 onMounted(() => {
 	loadData();
 });
+
+onUnmounted(() => {
+	resetTimer()
+})
 </script>
 
 <template>
@@ -51,7 +116,6 @@ onMounted(() => {
 				<span class="chat__consultant-name">Лариса</span>
 				<span class="chat__consultant-title">Онлайн-консультант</span>
 			</div>
-			<div v-if="groupedMessages"></div>
 			<button class="chat__close-button" @click="close">
 				<img src="../assets/icons/close.svg" alt="close">
 			</button>
@@ -61,10 +125,11 @@ onMounted(() => {
 				v-for="(block, index) in groupedMessages"
 				:key="index"
 				:data="block"
+				@send-event="sendFormData"
 			/>
 		</div>
 		<div class="chat__footer">
-			<MessageField/>
+			<MessageField v-model="message" @send-event="sendMessage" :disabled="isFinished"/>
 		</div>
 	</div>
 
@@ -72,7 +137,7 @@ onMounted(() => {
 
 <style scoped>
 .chat {
-	z-index: 100;
+	z-index: 1000;
 	width: 377px;
 	box-shadow: 0 0 60px 4px #00000033;
 	display: flex;

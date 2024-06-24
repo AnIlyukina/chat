@@ -2,6 +2,8 @@
 import {toRefs} from "vue";
 import {getComponent} from "../utils/getComponent.js";
 
+const emits = defineEmits(['sendEvent'])
+
 const props = defineProps({
 	data: {
 		type: Array,
@@ -10,6 +12,10 @@ const props = defineProps({
 })
 
 const { data } = toRefs(props)
+
+const sendEvent = (data) => {
+	emits('sendEvent', data)
+}
 
 </script>
 
@@ -21,6 +27,7 @@ const { data } = toRefs(props)
 			class="message-block__message"
 			:class="message.fromBot ? 'message-block__message_type_bot' : 'message-block__message_type_client'"
 			:data="message"
+			@sendEvent="sendEvent"
 		/>
 	</div>
 

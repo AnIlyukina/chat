@@ -13,17 +13,30 @@ const props = defineProps({
 	text: {
 		type: String,
 		default: ''
+	},
+	link: {
+		type: String,
+		default: ''
+	},
+	disabled: {
+		type: Boolean,
+		default: false
 	}
 })
 
-const {type} = toRefs(props)
+const {type, link} = toRefs(props)
+const onClickButton = () => {
+	if (type.value === 'link') {
+		window.open(link.value, '_blank')
+	}
+}
 </script>
 
 <template>
 	<button
 		class="button"
-		:class="type ? `button_type_${type}` : ''"
-		@click="">
+		:class="[type ? `button_type_${type}` : '', disabled ? 'button__disabled' : '']"
+		@click="onClickButton">
 		<img v-if="isIcon" class="button__icon" src="../../assets/icons/whatsapp.svg" alt="WhatsApp Logo">
 		{{ text }}
 	</button>
@@ -55,5 +68,9 @@ const {type} = toRefs(props)
 	width: 24px;
 	height: 24px;
 	margin-right: 8px;
+}
+
+.button__disabled {
+	cursor: auto;
 }
 </style>

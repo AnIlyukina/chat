@@ -4,8 +4,8 @@ import Form from "../components/type/Form.vue";
 
 const componentsMap = {
   text: Text,
-  buttonLink: ButtonLink,
-  form: Form,
+  text_with_button: ButtonLink,
+  form_user_data: Form,
 };
 
-export const getComponent = (type) => componentsMap[type];
+export const getComponent = (type) => componentsMap[type] || 'text';

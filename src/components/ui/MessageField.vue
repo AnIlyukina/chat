@@ -1,11 +1,37 @@
 <script setup>
+import {ref, toRefs} from "vue";
 
+const emits = defineEmits(['sendEvent', 'update:modelValue'])
+
+const props = defineProps({
+	modelValue: {
+		type: String,
+		default: ''
+	},
+	disabled: {
+		type: Boolean,
+		default: false
+	}
+})
+
+const {modelValue} = toRefs(props)
+
+const sendEvent = () => {
+	emits('sendEvent')
+}
 </script>
 
 <template>
 	<div class="message-field">
-		<textarea placeholder="Напишите сообщение..." class="message-field__textarea"></textarea>
-		<button class="message-field__button">
+		<textarea
+			:value="modelValue"
+			:disabled="disabled"
+			placeholder="Напишите сообщение..."
+			class="message-field__textarea"
+			@input="emits('update:modelValue', $event.target.value)"
+		>
+		</textarea>
+		<button class="message-field__button" @click="sendEvent">
 			<img src="../../assets/icons/send.svg" alt="отправить">
 		</button>
 	</div>
@@ -15,7 +41,7 @@
 .message-field {
 	display: flex;
 	align-items: center;
-	padding: 16px 20px 10px;
+	padding: 15px 20px 12px;
 	background-color: #fff;
 	border-top: 1px solid #E6E6E6;
 }

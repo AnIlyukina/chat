@@ -27,4 +27,22 @@ const handleApiError = (error) => {
   throw error;
 };
 
-export { api, handleApiError };
+// Функция для обработки ответа API
+const handleApiResponse = (response) => {
+  // Проверка ошибки в ответе
+  if (response.error !== null) {
+    console.error(`Ошибка: ${response.error}`);
+    return;
+  }
+
+  // Проверка успешности запроса
+  if (!response.success) {
+    console.error("Запрос не удался.");
+    return;
+  }
+
+  // Возвращаем обработанные сообщения
+  return response.result;
+};
+
+export { api, handleApiError, handleApiResponse };
