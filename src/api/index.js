@@ -45,4 +45,4 @@ const handleApiResponse = (response) => {
   return response.result;
 };
 
-export { api, handleApiError, handleApiResponse };
+export {api, handleApiError, handleApiResponse};

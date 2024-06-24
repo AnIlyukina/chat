@@ -31,7 +31,7 @@ export const postFormData = async (data) => {
   try {
     const response = await api.post('api/chat/user/', data);
     return handleApiResponse(response.data)
-  } catch(error) {
+  } catch (error) {
     handleApiError(error)
   }
 }

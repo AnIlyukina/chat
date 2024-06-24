@@ -11,7 +11,7 @@ const props = defineProps({
 	}
 })
 
-const { data } = toRefs(props)
+const {data} = toRefs(props)
 
 const sendEvent = (data) => {
 	emits('sendEvent', data)

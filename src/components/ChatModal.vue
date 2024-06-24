@@ -3,12 +3,12 @@ import {computed, onMounted, onUnmounted, ref} from "vue";
 import {finishMessage, getMessageHistory, postFormData, postMessage} from "../api/chat.js";
 import MessageBlock from "./MessageBlock.vue";
 import MessageField from "./ui/MessageField.vue";
-import { useTimer } from "../composable/useTimer.js";
+import {useTimer} from "../composable/useTimer.js";
 
 
 const emits = defineEmits(['close']);
 const messageHistory = ref([]);
-const { startTimer, resetTimer } = useTimer()
+const {startTimer, resetTimer} = useTimer()
 
 const close = () => {
 	emits('close');
@@ -43,9 +43,6 @@ const groupedMessages = computed(() => {
 
 const isFinished = computed(() => {
 	if (messageHistory.value.length > 0) {
-		console.log(messageHistory.value, 'messageHistory.value')
-		console.log(messageHistory.value.length - 1, 'messageHistory.value.length - 1')
-		console.log(messageHistory.value[messageHistory.value.length - 1].isFinished, 'messageHistory.value[messageHistory.value.length - 1].isFinished')
 		return messageHistory.value[messageHistory.value.length - 1].isFinished
 	}
 	return false
@@ -70,7 +67,6 @@ const sendMessage = async () => {
 // после отправки 1 сообщения устанавливаю тацмер на 30 сек, после которого будет завершение контекста общения
 const finishChatMessage = () => {
 	startTimer(5000, async () => {
-		console.log('Таймер отработал')
 		let result = await finishMessage()
 		if (result && messageHistory.value) {
 			saveMessageBot(result)
@@ -92,7 +88,7 @@ const saveMessageClient = () => {
 	message.value = ''
 }
 
-const sendFormData = async(data) => {
+const sendFormData = async (data) => {
 	let result = await postFormData(data)
 	if (result && messageHistory.value) {
 		saveMessageBot(result)

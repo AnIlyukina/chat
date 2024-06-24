@@ -11,9 +11,9 @@ const toggleChat = () => {
 </script>
 
 <template>
-	<ChatButton v-if="!isOpenChat" @click="toggleChat" />
+	<ChatButton v-if="!isOpenChat" @click="toggleChat"/>
 	<Transition name="fade">
-		<ChatModal v-if="isOpenChat" @close="toggleChat" />
+		<ChatModal v-if="isOpenChat" @close="toggleChat"/>
 	</Transition>
 </template>
 

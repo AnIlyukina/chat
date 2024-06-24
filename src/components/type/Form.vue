@@ -19,8 +19,6 @@ const phone = ref('')
 
 const sendEvt = (e) => {
 	e.preventDefault()
-	console.log(username.value)
-	console.log(phone.value)
 	emits('sendEvent', {
 		name: username.value,
 		phone: phone.value

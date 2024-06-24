@@ -40,7 +40,6 @@ const onClickButton = () => {
 		<img v-if="isIcon" class="button__icon" src="../../assets/icons/whatsapp.svg" alt="WhatsApp Logo">
 		{{ text }}
 	</button>
-
 </template>
 
 <style scoped>

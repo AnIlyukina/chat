@@ -23,7 +23,7 @@
 }
 
 @keyframes animateWidget {
-	0%,100% {
+	0%, 100% {
 		box-shadow: 0 0 0 #FE9901
 	}
 
@@ -32,12 +32,13 @@
 	}
 }
 
-@media screen and (max-width:768px)  {
+@media screen and (max-width: 768px) {
 	.chat-button {
 		height: 44px;
 		width: 44px;
 		right: 30px;
 		bottom: 70px;
+
 		& img {
 			height: 26px;
 			width: 26px;
