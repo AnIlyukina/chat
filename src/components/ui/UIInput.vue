@@ -21,7 +21,11 @@ const props = defineProps({
 	required: {
 		type: Boolean,
 		default: false
-	}
+	},
+	isValid: {
+		type: Boolean,
+		default: true
+	},
 })
 </script>
 
@@ -29,6 +33,7 @@ const props = defineProps({
 	<input
 		:value="modelValue"
 		class="input"
+		:class="[!isValid ? 'input__error' : '']"
 		:type="type"
 		:name="name"
 		:placeholder="placeholder"
@@ -45,5 +50,9 @@ const props = defineProps({
 	outline: none;
 	font-size: 14px;
 	line-height: 14px;
+}
+
+.input__error {
+	border: 1px solid #ff3c3c;
 }
 </style>

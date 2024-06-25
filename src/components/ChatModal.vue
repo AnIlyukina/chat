@@ -1,14 +1,18 @@
 <script setup>
-import {computed, onMounted, onUnmounted, ref} from "vue";
+import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
 import {finishMessage, getMessageHistory, postFormData, postMessage} from "../api/chat.js";
 import MessageBlock from "./MessageBlock.vue";
 import MessageField from "./ui/MessageField.vue";
 import {useTimer} from "../composable/useTimer.js";
+import TypingIndicator from "./ui/TypingIndicator.vue";
 
 
 const emits = defineEmits(['close']);
-const messageHistory = ref([]);
+
 const {startTimer, resetTimer} = useTimer()
+const messageHistory = ref([]);
+const isTyping = ref(false)
+const chatBody = ref(null)
 
 const close = () => {
 	emits('close');
@@ -30,7 +34,7 @@ const groupedMessages = computed(() => {
 				arrByFrom = [];
 				fromBot = messageHistory.value[i].fromBot;
 			}
-			arrByFrom.push(messageHistory.value[i]);
+			arrByFrom.push({...messageHistory.value[i], index: i});
 		}
 
 		if (arrByFrom.length > 0) {
@@ -51,7 +55,18 @@ const isFinished = computed(() => {
 // загрузка истории сообщений при инициализации чата
 const loadData = async () => {
 	messageHistory.value = await getMessageHistory();
+	scrollToLastMessage()
 };
+
+const scrollToLastMessage = () => {
+	nextTick(() => {
+		let lastBlock = chatBody.value.lastElementChild;
+		let lastChild = lastBlock.lastElementChild;
+		if (lastChild) {
+			lastChild.scrollIntoView({behavior: 'smooth'})
+		}
+	})
+}
 
 // отправляю сообщение
 const sendMessage = async () => {
@@ -60,16 +75,20 @@ const sendMessage = async () => {
 		if (result && messageHistory.value) {
 			saveMessageClient()
 			finishChatMessage()
+			scrollToLastMessage()
 		}
 	}
 }
 
 // после отправки 1 сообщения устанавливаю тацмер на 30 сек, после которого будет завершение контекста общения
 const finishChatMessage = () => {
-	startTimer(5000, async () => {
+	isTyping.value = true
+	startTimer(30000, async () => {
 		let result = await finishMessage()
 		if (result && messageHistory.value) {
 			saveMessageBot(result)
+			isTyping.value = false
+			scrollToLastMessage()
 		}
 	})
 }
@@ -91,17 +110,14 @@ const saveMessageClient = () => {
 const sendFormData = async (data) => {
 	let result = await postFormData(data)
 	if (result && messageHistory.value) {
+		messageHistory.value[data.index].isFinished = true
 		saveMessageBot(result)
+		scrollToLastMessage()
 	}
 }
 
-onMounted(() => {
-	loadData();
-});
-
-onUnmounted(() => {
-	resetTimer()
-})
+onMounted(loadData);
+onUnmounted(resetTimer)
 </script>
 
 <template>
@@ -110,16 +126,20 @@ onUnmounted(() => {
 			<img src="../assets/images/photo.png" alt="фото профиля" class="chat__profile-picture">
 			<div class="chat__header-info">
 				<span class="chat__consultant-name">Лариса</span>
-				<span class="chat__consultant-title">Онлайн-консультант</span>
+				<span class="chat__consultant-title">
+					 <TypingIndicator v-if="isTyping" /> <!-- Индикатор печати -->
+          <template v-else>Онлайн-консультант</template>
+				</span>
 			</div>
 			<button class="chat__close-button" @click="close">
 				<img src="../assets/icons/close.svg" alt="close">
 			</button>
 		</div>
-		<div class="chat__body">
+		<div class="chat__body" ref="chatBody">
 			<MessageBlock
 				v-for="(block, index) in groupedMessages"
 				:key="index"
+				:index="index"
 				:data="block"
 				@send-event="sendFormData"
 			/>

@@ -8,22 +8,22 @@ const props = defineProps({
 	data: {
 		type: Array,
 		required: true,
-	}
+	},
+	key: Number
 })
 
 const {data} = toRefs(props)
-
 const sendEvent = (data) => {
 	emits('sendEvent', data)
 }
-
 </script>
 
 <template>
 	<div class="message-block">
 		<Component
-			v-for="message in data"
+			v-for="(message, index) in data"
 			:is="getComponent(message.type)"
+			:key="index"
 			class="message-block__message"
 			:class="message.fromBot ? 'message-block__message_type_bot' : 'message-block__message_type_client'"
 			:data="message"

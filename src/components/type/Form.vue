@@ -2,6 +2,7 @@
 import {ref, toRefs} from "vue";
 import UIButton from "../ui/UIButton.vue";
 import UIInput from "../ui/UIInput.vue";
+import UIInputPhone from "../ui/UIInputPhone.vue";
 
 const emits = defineEmits(['sendEvent'])
 
@@ -16,14 +17,44 @@ const {data} = toRefs(props)
 
 const username = ref('')
 const phone = ref('')
+const isErrorUsername = ref(false)
+const isErrorPhone = ref(false)
 
 const sendEvt = (e) => {
-	e.preventDefault()
+	e.preventDefault();
+	if (isFormValid()) {
+		emitForm();
+	}
+};
+
+const isFormValid = () => {
+	validateUsername();
+	validatePhone();
+
+	return !isErrorUsername.value && !isErrorPhone.value;
+};
+
+const validateUsername = () => {
+	isErrorUsername.value = username.value.length < 3;
+};
+
+const validatePhone = () => {
+	const digitsOnlyPhone = phone.value.replace(/\D/g, '');
+	isErrorPhone.value = digitsOnlyPhone.length !== 10;
+};
+
+const emitForm = () => {
 	emits('sendEvent', {
 		name: username.value,
-		phone: phone.value
-	})
-}
+		phone: formatPhoneNumber(phone.value),
+		index: data.value.index
+	});
+};
+
+const formatPhoneNumber = (phone) => {
+	const digitsOnlyPhone = phone.replace(/\D/g, '');
+	return `8${digitsOnlyPhone}`;
+};
 
 </script>
 
@@ -34,15 +65,15 @@ const sendEvt = (e) => {
 			<div class="form__inputs">
 				<UIInput
 					v-model="username"
+					:is-valid="!isErrorUsername"
 					name="name"
 					placeholder="Введите имя"
 					required
 				/>
-				<UIInput
+				<UIInputPhone
 					v-model="phone"
-					type="tel"
+					:is-valid="!isErrorPhone"
 					name="phone"
-					placeholder="+7 (000)-000-00-00"
 					required
 				/>
 			</div>

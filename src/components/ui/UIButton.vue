@@ -30,16 +30,20 @@ const onClickButton = () => {
 		window.open(link.value, '_blank')
 	}
 }
+
 </script>
 
 <template>
-	<button
-		class="button"
-		:class="[type ? `button_type_${type}` : '', disabled ? 'button__disabled' : '']"
-		@click="onClickButton">
-		<img v-if="isIcon" class="button__icon" src="../../assets/icons/whatsapp.svg" alt="WhatsApp Logo">
-		{{ text }}
-	</button>
+	<div>
+		<button
+			class="button"
+			:class="[type ? `button_type_${type}` : '']"
+			:disabled="disabled"
+			@click="onClickButton">
+			<img v-if="isIcon" class="button__icon" src="../../assets/icons/whatsapp.svg" alt="WhatsApp Logo">
+			{{ text }}
+		</button>
+	</div>
 </template>
 
 <style scoped>
@@ -54,12 +58,14 @@ const onClickButton = () => {
 	font-size: 14px;
 	font-weight: 600;
 	padding: 12px;
+	width: 100%;
 	border-radius: 8px;
 }
 
 .button_type_link {
 	padding: 8px 10px;
 	border-radius: 80px;
+	width: fit-content;
 	background: linear-gradient(180deg, #61FD7D 0%, #25CF43 100%);
 }
 
@@ -69,7 +75,8 @@ const onClickButton = () => {
 	margin-right: 8px;
 }
 
-.button__disabled {
+.button:disabled {
 	cursor: auto;
+	background: #00000026;
 }
 </style>

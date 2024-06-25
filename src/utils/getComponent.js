@@ -8,4 +8,4 @@ const componentsMap = {
   form_user_data: Form,
 };
 
-export const getComponent = (type) => componentsMap[type] || 'text';
+export const getComponent = (type) => componentsMap[type];
