@@ -20,6 +20,8 @@ const {data} = toRefs((props))
 <style scoped>
 .text {
 	margin: 0;
+	white-space: pre-wrap;
+	word-break: break-word;
 	font-size: 14px;
 	line-height: 120%;
 }

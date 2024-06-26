@@ -45,13 +45,6 @@ const groupedMessages = computed(() => {
 	return result;
 });
 
-const isFinished = computed(() => {
-	if (messageHistory.value.length > 0) {
-		return messageHistory.value[messageHistory.value.length - 1].isFinished
-	}
-	return false
-})
-
 // загрузка истории сообщений при инициализации чата
 const loadData = async () => {
 	messageHistory.value = await getMessageHistory();
@@ -92,6 +85,14 @@ const finishChatMessage = () => {
 		}
 	})
 }
+
+const isAuthForm = computed(() => {
+	const lastMessage = messageHistory.value[messageHistory.value.length - 1]
+	if (lastMessage) {
+		return lastMessage.formType === 'not_auth'
+	}
+	return false
+})
 
 const saveMessageBot = (result) => {
 	messageHistory.value.push(...result)
@@ -145,7 +146,7 @@ onUnmounted(resetTimer)
 			/>
 		</div>
 		<div class="chat__footer">
-			<MessageField v-model="message" @send-event="sendMessage" :disabled="isFinished"/>
+			<MessageField v-model="message" @send-event="sendMessage" :disabled="isAuthForm"/>
 		</div>
 	</div>
 
@@ -172,6 +173,7 @@ onUnmounted(resetTimer)
 	align-items: center;
 	justify-content: space-between;
 	border-radius: 12px 12px 0 0;
+	user-select: none;
 }
 
 .chat__profile-picture {

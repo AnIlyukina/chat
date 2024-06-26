@@ -26,6 +26,10 @@ const props = defineProps({
 		type: Boolean,
 		default: true
 	},
+	disabled: {
+		type: Boolean,
+		default: false
+	}
 })
 </script>
 
@@ -36,6 +40,7 @@ const props = defineProps({
 		:class="[!isValid ? 'input__error' : '']"
 		:type="type"
 		:name="name"
+		:disabled="disabled"
 		:placeholder="placeholder"
 		:required="required"
 		@input="emits('update:modelValue', $event.target.value)"

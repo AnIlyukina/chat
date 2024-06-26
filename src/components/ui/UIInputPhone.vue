@@ -22,6 +22,10 @@ const props = defineProps({
 		type: String,
 		required: true
 	},
+	disabled: {
+		type: Boolean,
+		default: false
+	}
 })
 
 const {isValid} = toRefs(props)
@@ -38,13 +42,15 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="input-phone" :class="[!isValid ? 'input-phone__error' : '']">
+	<div class="input-phone" :class="[!isValid ? 'input-phone__error' : '', disabled ? 'input-phone__disabled' : '']">
 		<span class="input-phone__prefix">+7</span>
 		<input
 			:value="modelValue"
 			:required="required"
+			:disabled="disabled"
 			ref="phoneInput"
 			type="text"
+			maxlength="15"
 			placeholder="(000)-000-00-00"
 			class="input-phone__input"
 			@input="emits('update:modelValue', $event.target.value)"
@@ -80,5 +86,10 @@ onMounted(() => {
 
 .input-phone__error {
 	border: 1px solid #ff3c3c;
+}
+
+.input-phone__disabled {
+	background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3));
+	color: light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
 }
 </style>

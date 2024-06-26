@@ -66,6 +66,7 @@ const formatPhoneNumber = (phone) => {
 				<UIInput
 					v-model="username"
 					:is-valid="!isErrorUsername"
+					:disabled="data.isFinished"
 					name="name"
 					placeholder="Введите имя"
 					required
@@ -73,6 +74,7 @@ const formatPhoneNumber = (phone) => {
 				<UIInputPhone
 					v-model="phone"
 					:is-valid="!isErrorPhone"
+					:disabled="data.isFinished"
 					name="phone"
 					required
 				/>

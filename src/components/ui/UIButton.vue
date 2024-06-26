@@ -60,6 +60,11 @@ const onClickButton = () => {
 	padding: 12px;
 	width: 100%;
 	border-radius: 8px;
+	transition: background-color ease .3s;
+}
+
+.button:hover {
+	background-color: #ff6700d4;
 }
 
 .button_type_link {
@@ -68,6 +73,11 @@ const onClickButton = () => {
 	width: fit-content;
 	background: linear-gradient(180deg, #61FD7D 0%, #25CF43 100%);
 }
+
+.button_type_link:hover {
+	background: linear-gradient(180deg, #29ff50 0%, #1fa836 100%);
+}
+
 
 .button__icon {
 	width: 24px;

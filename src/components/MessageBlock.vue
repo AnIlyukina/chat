@@ -8,8 +8,7 @@ const props = defineProps({
 	data: {
 		type: Array,
 		required: true,
-	},
-	key: Number
+	}
 })
 
 const {data} = toRefs(props)
