@@ -213,7 +213,7 @@ onUnmounted(resetTimer)
 	flex-grow: 1;
 	height: 460px;
 	overflow: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	background-color: #fff;
 	max-height: calc(100vh - 250px);
 }
@@ -229,7 +229,7 @@ onUnmounted(resetTimer)
 }
 
 .chat__body::-webkit-scrollbar-thumb {
-	background: transparent;
+	background: #9f9c9c;
 	border-radius: 4px;
 }
 

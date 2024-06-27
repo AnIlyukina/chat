@@ -63,8 +63,17 @@ onMounted(adjustTextareaHeight)
 			@keydown="handleKeyDown"
 		>
 		</textarea>
-		<button class="message-field__button" @click="sendEvent">
-			<img src="../../assets/icons/send.svg" alt="отправить">
+		<button
+			:disabled="disabled || !modelValue"
+			class="message-field__button"
+			@click="sendEvent"
+		>
+			<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M1.4 15.4252C1.06667 15.5585 0.75 15.5294 0.45 15.3377C0.15 15.146 0 14.8669 0 14.5002V10.0002L8 8.00022L0 6.00022V1.50022C0 1.13355 0.15 0.854382 0.45 0.662715C0.75 0.471049 1.06667 0.441882 1.4 0.575215L16.8 7.07522C17.2167 7.25855 17.425 7.56688 17.425 8.00022C17.425 8.43355 17.2167 8.74188 16.8 8.92522L1.4 15.4252Z"
+				      style="transition: fill .5s ease"
+				      :fill="disabled || !modelValue ? '#CCCCCC' : '#FF9900'"
+				/>
+			</svg>
 		</button>
 	</div>
 </template>
@@ -119,5 +128,9 @@ onMounted(adjustTextareaHeight)
 	border: none;
 	padding: 0;
 	cursor: pointer;
+
+	&:disabled {
+		cursor: auto;
+	}
 }
 </style>

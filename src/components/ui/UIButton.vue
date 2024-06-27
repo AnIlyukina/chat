@@ -21,6 +21,10 @@ const props = defineProps({
 	disabled: {
 		type: Boolean,
 		default: false
+	},
+	isLoading: {
+		type: Boolean,
+		default: false
 	}
 })
 
@@ -41,7 +45,8 @@ const onClickButton = () => {
 			:disabled="disabled"
 			@click="onClickButton">
 			<img v-if="isIcon" class="button__icon" src="../../assets/icons/whatsapp.svg" alt="WhatsApp Logo">
-			{{ text }}
+			<span v-if="isLoading"><img class="button__loading" alt="загрузка"  width="24" height="24" src="../../assets/icons/progress_light.svg"/></span>
+			<span v-else>{{ text }}</span>
 		</button>
 	</div>
 </template>
@@ -57,7 +62,8 @@ const onClickButton = () => {
 	background-color: #FF9900;
 	font-size: 14px;
 	font-weight: 600;
-	padding: 12px;
+	padding: 6px;
+	min-height: 44px;
 	width: 100%;
 	border-radius: 8px;
 	transition: background-color ease .3s;
@@ -69,6 +75,7 @@ const onClickButton = () => {
 
 .button_type_link {
 	padding: 8px 10px;
+	min-height: initial;
 	border-radius: 80px;
 	width: fit-content;
 	background: linear-gradient(180deg, #61FD7D 0%, #25CF43 100%);
@@ -87,6 +94,20 @@ const onClickButton = () => {
 
 .button:disabled {
 	cursor: auto;
-	background: #00000026;
+	background: #EBEBEC;
+	color: #B5B5BC;
+}
+
+.button__loading {
+	animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 </style>

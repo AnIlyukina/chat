@@ -16,7 +16,7 @@ const api = axios.create({
 const handleApiError = (error) => {
   if (error.response) {
     // Сервер ответил статусом, отличным от 2xx
-    console.error('Server Error:', error.response.data);
+    return error.response.data
   } else if (error.request) {
     // Запрос был сделан, но ответа не было
     console.error('Network Error:', error.request);
