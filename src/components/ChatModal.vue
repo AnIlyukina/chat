@@ -252,6 +252,5 @@ onUnmounted(resetTimer)
 	.chat__body {
 		max-height: initial;
 	}
-
 }
 </style>

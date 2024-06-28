@@ -52,7 +52,7 @@ const isFormValid = () => {
 };
 
 const validateUsername = () => {
-	isErrorUsername.value = username.value.length < 3;
+	isErrorUsername.value = username.value.replace(/\s+/g, '') === '';
 };
 
 const validatePhone = () => {

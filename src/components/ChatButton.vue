@@ -44,6 +44,6 @@
 			width: 26px;
 		}
 	}
-
 }
+
 </style>

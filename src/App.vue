@@ -7,6 +7,25 @@ const isOpenChat = ref(false)
 
 const toggleChat = () => {
 	isOpenChat.value = !isOpenChat.value
+	if (isOpenChat.value) {
+		hiddenMobileMenu()
+	} else {
+		showMobileMenu()
+	}
+}
+
+const hiddenMobileMenu = () => {
+	let menu = document.querySelector('.main-menu__fixed-menu')
+	if (menu) {
+		menu.setAttribute('style', 'display: none !important;');
+	}
+}
+
+const showMobileMenu = () => {
+	let menu = document.querySelector('.main-menu__fixed-menu')
+	if (menu) {
+		menu.removeAttribute('style');
+	}
 }
 </script>
 
