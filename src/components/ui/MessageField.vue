@@ -134,12 +134,4 @@ onMounted(adjustTextareaHeight)
 	}
 }
 
-@media screen and (max-width: 500px) {
-	.message-field {
-		position: fixed;
-		bottom: 0;
-		width: 100vw;
-		left: 0;
-	}
-}
 </style>

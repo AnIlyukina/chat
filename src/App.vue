@@ -6,27 +6,21 @@ import {ref} from "vue";
 const isOpenChat = ref(false)
 
 const toggleChat = () => {
-	isOpenChat.value = !isOpenChat.value
+	isOpenChat.value = !isOpenChat.value;
+	updateMenuVisibility();
+};
+
+const updateMenuVisibility = () => {
+	const menu = document.querySelector('.main-menu__fixed-menu');
+	const isMobile = window.innerWidth <= 500;
 	if (isOpenChat.value) {
-		hiddenMobileMenu()
+		if (menu) menu.style.display = 'none';
+		if (isMobile) document.body.classList.add('modal-open');
 	} else {
-		showMobileMenu()
+		if (menu) menu.style.display = '';
+		if (isMobile) document.body.classList.remove('modal-open');
 	}
-}
-
-const hiddenMobileMenu = () => {
-	let menu = document.querySelector('.main-menu__fixed-menu')
-	if (menu) {
-		menu.setAttribute('style', 'display: none !important;');
-	}
-}
-
-const showMobileMenu = () => {
-	let menu = document.querySelector('.main-menu__fixed-menu')
-	if (menu) {
-		menu.removeAttribute('style');
-	}
-}
+};
 </script>
 
 <template>
@@ -42,5 +36,9 @@ const showMobileMenu = () => {
 }
 .fade-enter-from, .fade-leave-to /* .fade-leave-active в версии <2.1.8 */ {
 	opacity: 0;
+}
+
+.modal-open {
+    overflow: hidden;
 }
 </style>
