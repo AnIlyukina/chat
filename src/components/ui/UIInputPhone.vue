@@ -80,8 +80,8 @@ onMounted(() => {
 	border: none;
 	background-color: transparent;
 	outline: none;
-	font-size: 14px;
-	line-height: 14px;
+	font-size: 16px;
+	line-height: 16px;
 }
 
 .input-phone__error {

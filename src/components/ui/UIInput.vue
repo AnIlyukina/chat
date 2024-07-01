@@ -53,8 +53,8 @@ const props = defineProps({
 	border-radius: 8px;
 	border: 1px solid #E5E5EA;
 	outline: none;
-	font-size: 14px;
-	line-height: 14px;
+	font-size: 16px;
+	line-height: 16px;
 }
 
 .input__error {

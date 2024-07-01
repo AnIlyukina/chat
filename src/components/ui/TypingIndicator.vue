@@ -1,6 +1,15 @@
+<script setup>
+defineProps({
+	name: {
+		type: String,
+		default: '',
+	}
+})
+</script>
+
 <template>
 	<div class="typing-indicator">
-		печатает
+		{{ name ? name : '' }} печатает
 		<span class="typing-indicator__dots">
 			<span class="dot" v-for="n in 3" :key="n">.</span>
 		</span>
@@ -40,5 +49,3 @@
 	}
 }
 </style>
-<script setup lang="ts">
-</script>

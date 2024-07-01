@@ -89,9 +89,9 @@ onMounted(adjustTextareaHeight)
 
 .message-field__textarea {
 	flex-grow: 1;
-	padding-top: 4px;
 	border: none;
-	font-size: 14px;
+	font-size: 16px;
+	padding-top: 0;
 	line-height: 120%;
 	margin-right: 10px;
 	outline: transparent;

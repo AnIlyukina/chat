@@ -14,8 +14,10 @@ const updateMenuVisibility = () => {
 	const menu = document.querySelector('.main-menu__fixed-menu');
 	const isMobile = window.innerWidth <= 500;
 	if (isOpenChat.value) {
-		if (menu) menu.style.display = 'none';
-		if (isMobile) document.body.classList.add('modal-open');
+		setTimeout(() => {
+			if (menu) menu.style.display = 'none';
+			if (isMobile) document.body.classList.add('modal-open');
+		}, 500)
 	} else {
 		if (menu) menu.style.display = '';
 		if (isMobile) document.body.classList.remove('modal-open');
@@ -40,5 +42,6 @@ const updateMenuVisibility = () => {
 
 .modal-open {
     overflow: hidden;
+		-webkit-overflow-scrolling: touch;
 }
 </style>

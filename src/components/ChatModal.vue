@@ -127,10 +127,7 @@ onUnmounted(resetTimer)
 			<img src="../assets/images/photo.png" alt="фото профиля" class="chat__profile-picture">
 			<div class="chat__header-info">
 				<span class="chat__consultant-name">Лариса</span>
-				<span class="chat__consultant-title">
-					 <TypingIndicator v-if="isTyping" /> <!-- Индикатор печати -->
-          <template v-else>Онлайн-консультант</template>
-				</span>
+				<span class="chat__consultant-title">Онлайн-консультант</span>
 			</div>
 			<button class="chat__close-button" @click="close">
 				<img src="../assets/icons/close.svg" alt="close">
@@ -144,6 +141,9 @@ onUnmounted(resetTimer)
 				:data="block"
 				@send-event="sendFormData"
 			/>
+			<div class="chat__typing" v-if="isTyping">
+				<TypingIndicator name="Лариса"/> <!-- Индикатор печати -->
+			</div>
 		</div>
 		<div class="chat__footer">
 			<MessageField v-model="message" @send-event="sendMessage" :disabled="isAuthForm"/>
@@ -209,13 +209,22 @@ onUnmounted(resetTimer)
 }
 
 .chat__body {
-	padding: 10px 20px 20px;
+	padding: 10px 20px 12px;
 	flex-grow: 1;
 	height: 460px;
 	overflow: hidden;
 	overflow-y: auto;
 	background-color: #fff;
 	max-height: calc(100vh - 250px);
+	display: flex;
+	flex-direction: column;
+}
+
+.chat__typing {
+	color: #B5B5BC;
+	margin-top: auto;
+	padding-top: 12px;
+	font-size: 14px;
 }
 
 /* Стилизация прокрутки в textarea */
