@@ -91,7 +91,7 @@ onMounted(adjustTextareaHeight)
 	flex-grow: 1;
 	border: none;
 	font-size: 16px;
-	padding-top: 0;
+	padding: 0;
 	line-height: 120%;
 	margin-right: 10px;
 	outline: transparent;

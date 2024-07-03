@@ -16,7 +16,9 @@ const {data} = toRefs(props)
 	<div>
 		<div class="button-link">
 			<p class="button-link__text" v-html="data.message"></p>
-			<UIButton class="button-link__button" text="WhatsApp" type="link" :link="data.buttonUrl" isIcon/>
+			<div v-for="button in data.buttons">
+				<UIButton v-if="button.buttonType === 'whatsapp'" class="button-link__button" :text="button.buttonText" type="link" :link="button.buttonUrl" isIcon/>
+			</div>
 		</div>
 	</div>
 </template>

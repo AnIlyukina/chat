@@ -7,11 +7,12 @@ const pinia = createPinia()
 const app = createApp(App);
 
 document.addEventListener('DOMContentLoaded', function () {
-  let chatDiv = document.createElement('div');
-  chatDiv.id = 'chat';
-  console.log(document.body, 'document.body')
-  document.body.prepend(chatDiv);
-
-  app.use(pinia);
-  app.mount('#chat');
+  setTimeout(() => {
+    let chatDiv = document.createElement('div');
+    chatDiv.id = 'chat';
+    console.log(document.body, 'document.body')
+    document.body.prepend(chatDiv);
+    app.use(pinia);
+    app.mount('#chat');
+  }, 500)
 });

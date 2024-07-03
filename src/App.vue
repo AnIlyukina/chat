@@ -11,16 +11,11 @@ const toggleChat = () => {
 };
 
 const updateMenuVisibility = () => {
-	const menu = document.querySelector('.main-menu__fixed-menu');
 	const isMobile = window.innerWidth <= 500;
 	if (isOpenChat.value) {
-		setTimeout(() => {
-			if (menu) menu.style.display = 'none';
-			if (isMobile) document.body.classList.add('modal-open');
-		}, 500)
+		if (isMobile) document.body.classList.add('modal-chat-open');
 	} else {
-		if (menu) menu.style.display = '';
-		if (isMobile) document.body.classList.remove('modal-open');
+		if (isMobile) document.body.classList.remove('modal-chat-open');
 	}
 };
 </script>
@@ -39,9 +34,11 @@ const updateMenuVisibility = () => {
 .fade-enter-from, .fade-leave-to /* .fade-leave-active в версии <2.1.8 */ {
 	opacity: 0;
 }
+.modal-chat-open {
+	overflow: hidden;
+}
 
-.modal-open {
-    overflow: hidden;
-		-webkit-overflow-scrolling: touch;
+.modal-chat-open > *{
+	display: none;
 }
 </style>

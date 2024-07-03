@@ -162,7 +162,7 @@ onUnmounted(resetTimer)
 	right: 40px;
 	bottom: 50px;
 	position: fixed;
-	border-radius: 12px
+	border-radius: 12px;
 }
 
 .chat__header {
