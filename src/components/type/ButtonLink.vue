@@ -16,8 +16,10 @@ const {data} = toRefs(props)
 	<div>
 		<div class="button-link">
 			<p class="button-link__text" v-html="data.message"></p>
-			<div v-for="button in data.buttons">
-				<UIButton v-if="button.buttonType === 'whatsapp'" class="button-link__button" :text="button.buttonText" type="link" :link="button.buttonUrl" isIcon/>
+			<div class="button-link__blocks">
+				<div v-for="button in data.buttons">
+					<UIButton class="button-link__button" :text="button.buttonText" type="link" :code="button.buttonType" :link="button.buttonUrl" :isIcon="button.buttonType === 'whatsapp'"/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,5 +34,10 @@ const {data} = toRefs(props)
 
 .button-link__button {
 	margin-top: 12px;
+}
+
+.button-link__blocks {
+	display: flex;
+	gap: 10px;
 }
 </style>

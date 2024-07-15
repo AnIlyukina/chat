@@ -25,6 +25,10 @@ const props = defineProps({
 	isLoading: {
 		type: Boolean,
 		default: false
+	},
+	code: {
+		type: String,
+		default: ''
 	}
 })
 
@@ -41,7 +45,7 @@ const onClickButton = () => {
 	<div>
 		<button
 			class="button"
-			:class="[type ? `button_type_${type}` : '']"
+			:class="[type ? `button_type_${code}` : '']"
 			:disabled="disabled"
 			@click="onClickButton">
 			<img v-if="isIcon" class="button__icon" src="../../assets/icons/whatsapp.svg" alt="WhatsApp Logo">
@@ -73,7 +77,7 @@ const onClickButton = () => {
 	background-color: #ff6700d4;
 }
 
-.button_type_link {
+.button_type_whatsapp {
 	padding: 8px 10px;
 	min-height: initial;
 	border-radius: 80px;
@@ -81,10 +85,23 @@ const onClickButton = () => {
 	background: linear-gradient(180deg, #61FD7D 0%, #25CF43 100%);
 }
 
-.button_type_link:hover {
+.button_type_whatsapp:hover {
 	background: linear-gradient(180deg, #29ff50 0%, #1fa836 100%);
 }
 
+.button_type_phone {
+	padding: 6px 8px;
+	min-height: initial;
+	border-radius: 80px;
+	width: fit-content;
+	background:transparent;
+	color: #2982a4;
+	border: 2px solid #2982a4;
+}
+
+.button_type_phone:hover {
+	background: transparent;
+}
 
 .button__icon {
 	width: 24px;
